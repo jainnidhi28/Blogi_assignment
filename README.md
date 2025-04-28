@@ -38,8 +38,8 @@ A full-stack blogging platform built with **Django REST Framework** (backend), *
    docker-compose exec backend python manage.py createsuperuser
    ```
 4. **Access the app:**
-   - Frontend: [http://localhost:3000](http://localhost:3000)
-   - Backend API: [http://localhost:8000](http://localhost:8000)
+   - Frontend: [http://localhost:3001](http://localhost:3001)
+   - Backend API: [http://localhost:8001](http://localhost:8001)
 
 ---
 
@@ -69,7 +69,7 @@ A full-stack blogging platform built with **Django REST Framework** (backend), *
    npm install
    npm start
    ```
-3. Make sure `REACT_APP_API_BASE_URL` in `frontend/.env` points to your backend (e.g., `http://localhost:8000/api`)
+3. Make sure `REACT_APP_API_BASE_URL` in `frontend/.env` points to your backend (e.g., `http://localhost:8001/api`)
 
 ---
 
