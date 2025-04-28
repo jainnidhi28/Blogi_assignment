@@ -15,7 +15,7 @@ A full-stack blogging platform built with **Django REST Framework** (backend), *
 
 ---
 
-## 🛠️ Running the Project
+## Running the Project
 
 ### Option 1: With Docker (Recommended)
 
@@ -67,7 +67,7 @@ A full-stack blogging platform built with **Django REST Framework** (backend), *
 
 ---
 
-## ⚙️ Environment Variables
+##  Environment Variables
 
 - **Backend:**
   - `DATABASE_URL` (for Docker/PostgreSQL)
@@ -76,7 +76,7 @@ A full-stack blogging platform built with **Django REST Framework** (backend), *
 
 ---
 
-## 📦 Project Structure
+## Project Structure
 ```
 blogi/
 ├── backend/      # Django backend
@@ -85,7 +85,3 @@ blogi/
 ├── README.md
 ```
 
----
-
-## 📝 License
-MIT
