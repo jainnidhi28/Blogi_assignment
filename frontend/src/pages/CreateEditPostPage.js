@@ -23,6 +23,9 @@ function CreateEditPostPage({ editMode }) {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const [author, setAuthor] = useState("");
+  const currentUser = localStorage.getItem("username");
+
   useEffect(() => {
     if (editMode && id) {
       const fetchPost = async () => {
@@ -32,13 +35,17 @@ function CreateEditPostPage({ editMode }) {
           setContent(res.data.content);
           setType(res.data.type || "tech");
           setImagePreview(res.data.image || null);
+          setAuthor(res.data.author);
+          if (res.data.author !== currentUser) {
+            setError("You are not allowed to edit this post.");
+          }
         } catch (e) {
           setError("Failed to load post");
         }
       };
       fetchPost();
     }
-  }, [editMode, id]);
+  }, [editMode, id, currentUser]);
 
   const handleImageChange = e => {
     const file = e.target.files[0];
@@ -57,6 +64,11 @@ function CreateEditPostPage({ editMode }) {
     if (submitting) return;
     setSubmitting(true);
     setError("");
+    if (editMode && author && author !== currentUser) {
+      setError("You are not allowed to edit this post.");
+      setSubmitting(false);
+      return;
+    }
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
@@ -68,10 +80,12 @@ function CreateEditPostPage({ editMode }) {
         await axios.patch(`${API_BASE}/posts/${id}/`, formData, {
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
         });
+        alert("Post updated successfully.");
       } else {
         await axios.post(`${API_BASE}/posts/`, formData, {
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
         });
+        alert("Post created successfully.");
       }
       navigate("/");
     } catch (e) {
@@ -83,45 +97,55 @@ function CreateEditPostPage({ editMode }) {
 
   return (
     <div className="max-w-lg mx-auto mt-10 p-6 border rounded">
-      <h2 className="text-2xl mb-4">{editMode ? "Edit" : "Create"} Post</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          className="w-full border px-2 py-1 rounded"
-          required
-        />
-        <select
-          value={type}
-          onChange={e => setType(e.target.value)}
-          className="w-full border px-2 py-1 rounded"
-          required
-        >
-          {BLOG_TYPE_CHOICES.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
-        <textarea
-          placeholder="Content"
-          value={content}
-          onChange={e => setContent(e.target.value)}
-          className="w-full border px-2 py-1 rounded h-32"
-          required
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="w-full"
-        />
-        {imagePreview && (
-          <img src={imagePreview} alt="preview" className="max-h-52 rounded object-cover mx-auto" />
-        )}
-        {error && <div className="text-red-500">{error}</div>}
-        <button type="submit" className="w-full bg-blue-600 text-white rounded py-2" disabled={submitting}>{submitting ? (editMode ? "Updating..." : "Creating...") : (editMode ? "Update" : "Create Post")}</button>
-      </form>
+      <h2 className="text-2xl mb-4">{editMode ? "Edit Post" : "Create New Post"}</h2>
+      {editMode && author && author !== currentUser ? (
+        <div className="text-red-500">You are not allowed to edit this post.</div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            className="w-full border px-2 py-1 rounded"
+            required
+          />
+          <textarea
+            placeholder="Content"
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            className="w-full border px-2 py-1 rounded h-32"
+            required
+          />
+          <select
+            value={type}
+            onChange={e => setType(e.target.value)}
+            className="w-full border px-2 py-1 rounded"
+            required
+          >
+            {BLOG_TYPE_CHOICES.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full"
+          />
+          {imagePreview && (
+            <img src={imagePreview} alt="preview" className="max-h-52 rounded object-cover mx-auto" />
+          )}
+          {error && <div className="text-red-500">{error}</div>}
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white rounded py-2"
+            disabled={submitting}
+          >
+            {submitting ? (editMode ? "Updating..." : "Creating...") : (editMode ? "Update Post" : "Create Post")}
+          </button>
+        </form>
+      )}
     </div>
   );
 }

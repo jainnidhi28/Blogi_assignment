@@ -56,8 +56,8 @@ function HomePage() {
         ) : (
           <ul className="space-y-4">
             {recentPosts.map(post => (
-              <li key={post.id} className="border rounded p-4">
-                <div className="flex items-center gap-4">
+              <li key={post.id} className="border rounded p-4 hover:bg-blue-50 transition">
+                <Link to={`/post/${post.id}`} className="flex items-center gap-4 no-underline text-inherit">
                   {post.image && <img src={post.image} alt="blog" className="w-20 h-14 object-cover rounded" />}
                   <div className="flex-1">
                     <div className="font-semibold text-blue-800 text-lg">{post.title}</div>
@@ -65,7 +65,7 @@ function HomePage() {
                     <div className="text-xs text-gray-400">{new Date(post.created_at).toLocaleString()}</div>
                   </div>
                   <div className="text-xs text-gray-500">By {post.author}</div>
-                </div>
+                </Link>
               </li>
             ))}
           </ul>

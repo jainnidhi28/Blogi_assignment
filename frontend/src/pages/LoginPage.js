@@ -21,7 +21,26 @@ function LoginPage() {
       localStorage.setItem("username", email);
       navigate("/");
     } catch (e) {
-      setError("Invalid credentials");
+      if (e.response && e.response.data) {
+        // Try to show the first error message from the backend
+        const data = e.response.data;
+        let msg = "Login failed.";
+        if (typeof data === 'string') {
+          msg = data;
+        } else if (typeof data === 'object') {
+          const firstKey = Object.keys(data)[0];
+          if (Array.isArray(data[firstKey])) {
+            msg = data[firstKey][0];
+          } else if (typeof data[firstKey] === 'string') {
+            msg = data[firstKey];
+          } else {
+            msg = JSON.stringify(data);
+          }
+        }
+        setError(msg);
+      } else {
+        setError("Login failed. Try again later.");
+      }
     }
   };
 

@@ -82,10 +82,24 @@ WSGI_APPLICATION = 'blogi_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import os
 import dj_database_url
-DATABASES = {
-    'default': dj_database_url.config(default='postgres://blogiuser:blogipassword@db:5432/blogidb')
-}
+
+if os.environ.get("USE_LOCAL_POSTGRES", "1") == "1":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'blogidb',
+            'USER': 'nidhijain',
+            'PASSWORD': '',  # Set your password if you have one
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.config(default='postgres://blogiuser:blogipassword@db:5432/blogidb')
+    }
 # Previous local settings (now replaced by dj-database-url for Docker):
 # DATABASES = {
 #     'default': {

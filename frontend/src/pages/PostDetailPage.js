@@ -33,9 +33,16 @@ function PostDetailPage() {
       await axios.delete(`${API_BASE}/posts/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      // Show a success message briefly before redirecting
+      setError("");
+      alert("Post deleted successfully.");
       navigate("/");
     } catch (e) {
-      setError("Failed to delete post.");
+      if (e.response && e.response.status === 403) {
+        setError("You are not allowed to delete this post.");
+      } else {
+        setError("Failed to delete post.");
+      }
     }
   };
 
@@ -56,6 +63,9 @@ function PostDetailPage() {
           <Link to={`/post/edit/${post.id}`} className="bg-yellow-500 text-white px-4 py-2 rounded">Edit</Link>
           <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded">Delete</button>
         </div>
+      )}
+      {token && post.author !== currentUser && (
+        <div className="text-red-500 mt-4">You are not allowed to edit or delete this post.</div>
       )}
     </div>
   );

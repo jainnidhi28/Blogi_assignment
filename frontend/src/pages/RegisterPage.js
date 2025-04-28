@@ -28,7 +28,27 @@ function RegisterPage() {
       });
       navigate("/login");
     } catch (e) {
-      setError("Registration failed. Email may already exist.");
+      if (e.response && e.response.data) {
+        // Try to show the first error message from the backend
+        const data = e.response.data;
+        let msg = "Registration failed.";
+        if (typeof data === 'string') {
+          msg = data;
+        } else if (typeof data === 'object') {
+          // Show the first error message
+          const firstKey = Object.keys(data)[0];
+          if (Array.isArray(data[firstKey])) {
+            msg = data[firstKey][0];
+          } else if (typeof data[firstKey] === 'string') {
+            msg = data[firstKey];
+          } else {
+            msg = JSON.stringify(data);
+          }
+        }
+        setError(msg);
+      } else {
+        setError("Registration failed. Try again later.");
+      }
     }
   };
 
