@@ -1,3 +1,9 @@
+<img width="1429" alt="Screenshot 2025-04-28 at 9 56 27 AM" src="https://github.com/user-attachments/assets/c002e286-a174-4879-83d9-bb4ddd10ff32" />
+<img width="1429" alt="Screenshot 2025-04-28 at 9 56 17 AM" src="https://github.com/user-attachments/assets/26a8285d-9cb0-4212-9852-93baeee0215f" />
+<img width="1429" alt="Screenshot 2025-04-28 at 9 55 33 AM" src="https://github.com/user-attachments/assets/d9df0501-d325-46cd-9a7a-8a52a2a3ddd1" />
+<img width="1429" alt="Screenshot 2025-04-28 at 9 55 23 AM" src="https://github.com/user-attachments/assets/71ac3acf-d511-4a37-8528-538be640b173" />
+<img width="1429" alt="Screenshot 2025-04-28 at 9 54 54 AM" src="https://github.com/user-attachments/assets/0dc42bdb-5381-4d7d-bd3d-7d5b866c3f1d" />
+<img width="1429" alt="Screenshot 2025-04-28 at 9 54 47 AM" src="https://github.com/user-attachments/assets/f8518d7b-1d6f-40da-9bb8-253ba69a4c0a" />
 # Blogi
 
 A full-stack blogging platform built with **Django REST Framework** (backend), **React** (frontend), and **PostgreSQL** (database). Includes JWT authentication, blog CRUD, image uploads, pagination, and Docker support.
